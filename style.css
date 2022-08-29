@@ -1,0 +1,282 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --_hue: 240;
+  --_size: 1.5rem;
+  --_radius: 0.2em;
+  --_tspeed_fast: 150ms;
+  --_tspeed_slow: 400ms;
+  --_ttype_squish: cubic-bezier(0.86, -0.1, 0.27, 1.15);
+
+  /* light color scheme */
+  --bg--light: var(--_hue) 80% 99%;
+  --txt--light: var(--_hue) 80% 8%;
+  --muted--light: var(--_hue) 20% 70%;
+  --accent--light: var(--_hue) 70% 60%;
+  --secondary--light: calc(var(--_hue) - 195) 70% 60%;
+
+  /* dark color scheme */
+  --bg--dark: var(--_hue) 80% 12%;
+  --txt--dark: var(--_hue) 80% 99%;
+  --muted--dark: var(--_hue) 80% 99%;
+  --accent--dark: var(--_hue) 65% 50%;
+  --secondary--dark: calc(var(--_hue) - 195) 65% 50%;
+
+  /* custom color scheme */
+  --bg--custom: 220 80% 98%;
+  --txt--custom: 200 80% 9%;
+  --muted--custom: 210 80% 50%;
+  --accent--custom: 180 65% 50%;
+  --secondary--custom: 280 65% 50%;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: var(--bg--light);
+    --txt: var(--txt--light);
+    --muted: var(--muted--light);
+    --accent: var(--accent--light);
+    --secondary: var(--secondary--light);
+    color-scheme: light;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: var(--bg--dark);
+    --txt: var(--txt--dark);
+    --muted: var(--muted--dark);
+    --accent: var(--accent--dark);
+    --secondary: var(--secondary--dark);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="light"] {
+  --bg: var(--bg--light);
+  --txt: var(--txt--light);
+  --muted: var(--muted--light);
+  --accent: var(--accent--light);
+  --secondary: var(--secondary--light);
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: var(--bg--dark);
+  --txt: var(--txt--dark);
+  --muted: var(--muted--dark);
+  --accent: var(--accent--dark);
+  --secondary: var(--secondary--dark);
+  color-scheme: dark;
+}
+
+:root[data-theme="custom"] {
+  --bg: var(--bg--custom);
+  --txt: var(--txt--custom);
+  --muted: var(--muted--custom);
+  --accent: var(--accent--custom);
+  --secondary: var(--secondary--custom);
+  color-scheme: light;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: var(--_size);
+  line-height: 1.5;
+  background-color: hsl(var(--bg));
+  color: hsl(var(--txt));
+}
+
+.container {
+  margin-inline: max((calc(100vw - 70rem)/2), 2rem);
+  display: grid;
+  place-items: center;
+  gap: 2rem;
+}
+
+.text-accent {
+  color: hsl(var(--accent));
+}
+
+.text-secondary {
+  color: hsl(var(--secondary));
+}
+
+.text-muted {
+  color: hsl(var(--muted));
+}
+
+.theme-wrapper {
+  display: grid;
+  place-items: center;
+  box-shadow: 0 .5rem .4rem hsl(var(--accent) / .05);
+  padding: 1rem;
+}
+
+.theme-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.theme {
+  border-radius: 100vmax;
+  padding: .6em;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.theme::after {
+  content: attr(aria-label);
+  position: absolute;
+  top: calc(100% + 1rem);
+  font-size: .8em;
+  min-width: max-content;
+  padding: .2em .5em;
+  border-radius: var(--_radius);
+  background-color: hsl(var(--bg));
+  color: hsl(var(--txt));
+  box-shadow: 0 0 .2rem hsl(var(--accent) / .95);
+  opacity: 0;
+  transition: opacity var(--_tspeed_fast) var(--_ttype_squish);
+}
+
+.theme:is(:hover, :focus-visible)::after {
+  opacity: 1;
+}
+
+/* Styles for added HTML👇*/
+
+.container {
+  margin-block: 2rem;
+}
+
+input,
+label {
+  font: inherit;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  padding: 1.5rem;
+  display: grid;
+  gap: .8em;
+  border: .2em solid hsl(var(--accent));
+  border-radius: .8rem;
+}
+
+form {
+  display: grid;
+  gap: 0.8em;
+  max-width: calc(var(--_size) * 20);
+  font-size: var(--_size);
+  text-align: left;
+  padding-block: 0.5em;
+}
+
+.input-wrapper {
+  position: relative;
+  display: grid;
+  gap: 0.2em;
+  margin-block-start: 0.6em;
+}
+
+.form-label {
+  text-transform: uppercase;
+  font-size: 0.7em;
+  letter-spacing: 0.05em;
+  margin-inline: 0.45em;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0.1em 0.35em;
+  background-color: hsl(var(--muted));
+  color: hsl(var(--bg));
+  border-radius: var(--_radius);
+  transition: transform var(--_tspeed_fast) var(--_ttype_squish),
+    background-color var(--_tspeed_fast) var(--_ttype_squish);
+}
+
+.form-input {
+  border: none;
+  border-radius: var(--_radius);
+  padding: 0.35em 0.55em;
+  width: 100%;
+  color: hsl(var(--bg));
+  background-color: hsl(var(--muted));
+  caret-color: hsl(var(--accent));
+  box-shadow: 0 0 0 -0.1em hsl(var(--bg)),
+    0 0 0 -0.2em hsl(var(--accent) / 0.8);
+  transition: box-shadow var(--_tspeed_slow) var(--_ttype_squish);
+}
+
+.form-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2em hsl(var(--bg)),
+    0 0 0 0.4em hsl(var(--accent) / 0.8);
+}
+
+.form-input:focus~.form-label,
+.form-input:not(:placeholder-shown)~.form-label {
+  transform: translate3d(0, -2.75em, 0);
+  background-color: hsl(var(--bg));
+  color: hsl(var(--muted) / 0.8);
+}
+
+.form-input::placeholder {
+  opacity: 0;
+}
+
+@media screen and (min-width: 600px) {
+  .md\:span-2 {
+    grid-column: 1 / span 2;
+  }
+}
+
+:where(.btn) {
+  display: grid;
+  place-items: center;
+  font: inherit;
+  background-color: hsl(var(--accent));
+  border: none;
+  color: hsl(var(--bg));
+  border-radius: 0.25em;
+  padding: .3em 1.1em;
+  cursor: pointer;
+  box-shadow:
+    0 0 .5em hsl(var(--accent) / 0.35),
+    0 0 0 -.2em hsl(var(--bg) / 0.55),
+    0 0 0 -.4em hsl(var(--secondary));
+  transition: box-shadow var(--_tspeed_fast) var(--_ttype_squish);
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.btn:focus-visible {
+  box-shadow:
+    0 0 0 hsl(var(--accent) / 0.35),
+    0 0 0 .2em hsl(var(--bg) / 0.95),
+    0 0 0 .4em hsl(var(--secondary));
+}
+
+.btn:hover {
+  background-color: hsl(var(--accent) / .9);
+  box-shadow:
+    0 0 0 hsl(var(--accent) / 0.35),
+    0 0 0 -.2em hsl(var(--bg) / 0.95),
+    0 0 0 -.4em hsl(var(--secondary));
+}
